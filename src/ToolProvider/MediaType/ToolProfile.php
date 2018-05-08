@@ -58,7 +58,7 @@ class ToolProfile
             }            
         }
         if (!empty($toolProvider->vendor->id)) {
-            $this->product_instance->product_info->product_family->vendor->code = $toolProvider->vendor->id;            
+            $this->product_instance->product_info->product_family->vendor->code = $toolProvider->vendor->id;
         }
         if (!empty($toolProvider->vendor->name)) {
             $this->product_instance->product_info->product_family->vendor->vendor_name = new \stdClass;
