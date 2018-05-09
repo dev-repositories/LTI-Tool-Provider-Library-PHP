@@ -457,6 +457,13 @@ class ToolProvider
         foreach ($roles as $role) {
             $role = trim($role);
             if (!empty($role)) {
+                if (strpos( $role, '://purl.imsglobal.org/vocab/lis/v2/' ) !== false) {
+                    // Get trailing #anchor
+                    $fragment = parse_url($role, PHP_URL_FRAGMENT);
+                    if (!empty( $fragment )) {
+                        $role = $fragment;
+                    }
+                }                
                 if (substr($role, 0, 4) !== 'urn:') {
                     $role = 'urn:lti:role:ims/lis/' . $role;
                 }
