@@ -1,6 +1,6 @@
 {
     "name": "izumi-kun/lti",
-    "version" : "1.0.1",
+    "version" : "1.0.2",
     "description": "LTI Tool Provider Library",
     "keywords": ["lti"],
     "homepage": "https://www.imsglobal.org/lti",
