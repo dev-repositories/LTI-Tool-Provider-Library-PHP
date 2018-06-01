@@ -778,14 +778,21 @@ EOD;
                 try {
                     $store = new OAuthDataStore($this);
                     $server = new OAuth\OAuthServer($store);
-                    $method = new OAuth\OAuthSignatureMethod_HMAC_SHA1();
-                    $server->add_signature_method($method);
+                    $sha1 = new OAuth\OAuthSignatureMethod_HMAC_SHA1();
+                    $server->add_signature_method($sha1);
+                    $sha256 = new OAuth\OAuthSignatureMethod_HMAC_SHA256();
+                    $server->add_signature_method($sha256);
                     $request = OAuth\OAuthRequest::from_request();
                     $res = $server->verify_request($request);
                 } catch (\Exception $e) {
                     $this->ok = false;
                     if (empty($this->reason)) {
                         if ($this->debugMode) {
+                            if (isset($request, $sha256) && $request->get_parameter('oauth_signature_method') === $sha256->get_name()) {
+                                $method = $sha256;
+                            } else {
+                                $method = $sha1;    
+                            }
                             $consumer = new OAuth\OAuthConsumer($this->consumer->getKey(), $this->consumer->secret);
                             $signature = $request->build_signature($method, $consumer, false);
                             $this->reason = $e->getMessage();
