@@ -2,6 +2,8 @@
 
 namespace IMSGlobal\LTI;
 
+use IMSGlobal\LTI\Http;
+
 /**
  * Class to represent an HTTP message
  *
@@ -14,80 +16,74 @@ namespace IMSGlobal\LTI;
 class HTTPMessage
 {
 
-/**
- * True if message was sent successfully.
- *
- * @var boolean $ok
- */
+    /**
+     * @var Http\ClientInterface The client used to send the request.
+     */
+    private static $httpClient;
+
+    /**
+     * True if message was sent successfully.
+     * @var boolean $ok
+     */
     public $ok = false;
 
-/**
- * Request body.
- *
- * @var string|null $request
- */
+    /**
+     * Request body.
+     * @var string|null $request
+     */
     public $request = null;
 
-/**
- * Request headers.
- *
- * @var string $requestHeaders
- */
+    /**
+     * Request headers.
+     * @var string $requestHeaders
+     */
     public $requestHeaders = '';
 
-/**
- * Response body.
- *
- * @var string|null $response
- */
+    /**
+     * Response body.
+     * @var string|null $response
+     */
     public $response = null;
 
-/**
- * Response headers.
- *
- * @var string $responseHeaders
- */
+    /**
+     * Response headers.
+     * @var string $responseHeaders
+     */
     public $responseHeaders = '';
 
-/**
- * Status of response (0 if undetermined).
- *
- * @var int $status
- */
+    /**
+     * Status of response (0 if undetermined).
+     * @var int $status
+     */
     public $status = 0;
 
-/**
- * Error message
- *
- * @var string $error
- */
+    /**
+     * Error message
+     * @var string $error
+     */
     public $error = '';
 
-/**
- * Request URL.
- *
- * @var string $url
- */
-    private $url = null;
+    /**
+     * Request URL.
+     * @var string $url
+     */
+    public $url = null;
 
-/**
- * Request method.
- *
- * @var string|null $method
- */
-    private $method = null;
+    /**
+     * Request method.
+     * @var string|null $method
+     */
+    public $method = null;
 
-/**
- * Class constructor.
- *
- * @param string $url     URL to send request to
- * @param string $method  Request method to use (optional, default is GET)
- * @param mixed  $params  Associative array of parameter values to be passed or message body (optional, default is none)
- * @param string $header  Values to include in the request header (optional, default is none)
- */
+    /**
+     * Class constructor.
+     * @param string $url    URL to send request to
+     * @param string $method Request method to use (optional, default is GET)
+     * @param mixed  $params Associative array of parameter values to be passed or message body (optional, default is none)
+     * @param string $header Values to include in the request header (optional, default is none)
+     */
     function __construct($url, $method = 'GET', $params = null, $header = null)
     {
-
         $this->url = $url;
         $this->method = strtoupper($method);
         if (is_array($params)) {
@@ -98,82 +94,45 @@ class HTTPMessage
         if (!empty($header)) {
             $this->requestHeaders = explode("\n", $header);
         }
-
     }
 
-/**
- * Send the request to the target URL.
- *
- * @return boolean True if the request was successful
- */
-    public function send()
+    /**
+     * Set a HTTP client.
+     * @param Http\ClientInterface|null $httpClient The HTTP client to use for sending message.
+     */
+    public static function setHttpClient(Http\ClientInterface $httpClient = null)
     {
+        self::$httpClient = $httpClient;
+    }
 
-        $this->ok = false;
-// Try using curl if available
-        if (function_exists('curl_init')) {
-            $resp = '';
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->url);
-            if (!empty($this->requestHeaders)) {
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $this->requestHeaders);
+    /**
+     * Retrieves the HTTP client used for sending the message. Creates a default client if one is not set.
+     * @return Http\ClientInterface
+     */
+    public static function getHttpClient()
+    {
+        if (!self::$httpClient) {
+            if (function_exists('curl_init')) {
+                self::$httpClient = new Http\CurlClient();
+            } elseif (ini_get('allow_url_fopen')) {
+                self::$httpClient = new Http\StreamClient();
             } else {
-                curl_setopt($ch, CURLOPT_HEADER, 0);
-            }
-            if ($this->method === 'POST') {
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $this->request);
-            } else if ($this->method !== 'GET') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->method);
-                if (!is_null($this->request)) {
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $this->request);
-                }
-            }
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-            curl_setopt($ch, CURLOPT_HEADER, true);
-            //curl_setopt($ch, CURLOPT_SSLVERSION,3);
-            $chResp = curl_exec($ch);
-            $this->ok = $chResp !== false;
-            if ($this->ok) {
-                $chResp = str_replace("\r\n", "\n", $chResp);
-                $chRespSplit = explode("\n\n", $chResp, 2);
-                if ((count($chRespSplit) > 1) && (substr($chRespSplit[1], 0, 5) === 'HTTP/')) {
-                    $chRespSplit = explode("\n\n", $chRespSplit[1], 2);
-                }
-                $this->responseHeaders = $chRespSplit[0];
-                $resp = $chRespSplit[1];
-                $this->status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $this->ok = $this->status < 400;
-                if (!$this->ok) {
-                    $this->error = curl_error($ch);
-                }
-            }
-            $this->requestHeaders = str_replace("\r\n", "\n", curl_getinfo($ch, CURLINFO_HEADER_OUT));
-            curl_close($ch);
-            $this->response = $resp;
-        } else {
-// Try using fopen if curl was not available
-            $opts = array('method' => $this->method,
-                          'content' => $this->request
-                         );
-            if (!empty($this->requestHeaders)) {
-                $opts['header'] = $this->requestHeaders;
-            }
-            try {
-                $ctx = stream_context_create(array('http' => $opts));
-                $fp = @fopen($this->url, 'rb', false, $ctx);
-                if ($fp) {
-                    $resp = @stream_get_contents($fp);
-                    $this->ok = $resp !== false;
-                }
-            } catch (\Exception $e) {
-                $this->ok = false;
+                throw new \RuntimeException('Cannot create an HTTP client, because neither cURL or allow_url_fopen are enabled.');
             }
         }
 
-        return $this->ok;
+        return self::$httpClient;
+    }
 
+    /**
+     * Send the request to the target URL.
+     * @return boolean True if the request was successful
+     */
+    public function send()
+    {
+        $this->ok = self::getHttpClient()->send($this);
+
+        return $this->ok;
     }
 
 }
