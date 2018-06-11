@@ -908,7 +908,7 @@ EOD;
                 }
                 foreach ($this->constraints as $name => $constraint) {
                     if ($constraint['required']) {
-                        if (!in_array($name, $capabilities) && !in_array($name, array_flip($capabilities))) {
+                        if (!in_array($name, $capabilities, true)) {
                             $missing[$name] = true;
                         }
                     }
