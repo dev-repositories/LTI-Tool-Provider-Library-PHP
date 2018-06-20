@@ -906,13 +906,6 @@ EOD;
                         }
                     }
                 }
-                foreach ($this->constraints as $name => $constraint) {
-                    if ($constraint['required']) {
-                        if (!in_array($name, $capabilities, true)) {
-                            $missing[$name] = true;
-                        }
-                    }
-                }
                 if (!empty($missing)) {
                     ksort($missing);
                     $this->reason = 'Required capability not offered - \'' . implode('\', \'', array_keys($missing)) . '\'';
