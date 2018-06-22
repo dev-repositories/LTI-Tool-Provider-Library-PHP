@@ -881,7 +881,9 @@ EOD;
                 $this->reason = 'Invalid lti_version parameter';
             }
             if ($this->ok) {
-                $http = new HTTPMessage($_POST['tc_profile_url'], 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
+                $url = $_POST['tc_profile_url'];
+                $url .= (strpos($url, '?') !== false ? '&' : '?') . 'lti_version=' . $_POST['lti_version'];
+                $http = new HTTPMessage($url, 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
                 $this->ok = $http->send();
                 if (!$this->ok) {
                     $this->reason = 'Tool consumer profile not accessible.';
@@ -943,7 +945,9 @@ EOD;
                 }
             }
         } else if ($this->ok && !empty($_POST['custom_tc_profile_url']) && empty($this->consumer->profile)) {
-            $http = new HTTPMessage($_POST['custom_tc_profile_url'], 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
+            $url = $_POST['custom_tc_profile_url'];
+            $url .= (strpos($url, '?') !== false ? '&' : '?') . 'lti_version=' . $_POST['lti_version'];
+            $http = new HTTPMessage($url, 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
             if ($http->send()) {
                 $tcProfile = json_decode($http->response);
                 if (!is_null($tcProfile)) {
