@@ -33,6 +33,8 @@ class ContentItemPlacement
         }
         if (!empty($documentTarget)) {
             $this->documentTarget = $documentTarget;
+            //Canvas requires presentationDocumentTarget. Also according to LTI specs: https://www.imsglobal.org/lti/model/uml/purl.imsglobal.org/vocab/lti/v1/ci/index.html
+            $this->presentationDocumentTarget = $documentTarget;
         }
         if (!empty($windowTarget)) {
             $this->windowTarget = $windowTarget;
