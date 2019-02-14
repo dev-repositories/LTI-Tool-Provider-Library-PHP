@@ -1001,9 +1001,6 @@ EOD;
                     $contentItemId = $_POST['custom_content_item_id'];
                 }
                 $this->resourceLink = ResourceLink::fromConsumer($this->consumer, trim($_POST['resource_link_id']), $contentItemId);
-                if (!empty($this->context)) {
-                    $this->resourceLink->setContextId($this->context->getRecordId());
-                }
                 $title = '';
                 if (isset($_POST['resource_link_title'])) {
                     $title = trim($_POST['resource_link_title']);
@@ -1152,6 +1149,9 @@ EOD;
             $this->context->save();
         }
         if ($this->ok && isset($this->resourceLink)) {
+            if (!empty($this->context)) {
+                $this->resourceLink->setContextId($this->context->getRecordId());
+            }
 
 // Check if a share arrangement is in place for this resource link
             $this->ok = $this->checkForShare();
