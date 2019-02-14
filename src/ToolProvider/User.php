@@ -267,8 +267,8 @@ class User
                 break;
             case ToolProvider::ID_SCOPE_CONTEXT:
                 $id = $this->getResourceLink()->getKey();
-                if ($this->resourceLink->ltiContextId) {
-                    $id .= ToolProvider::ID_SCOPE_SEPARATOR . $this->resourceLink->ltiContextId;
+                if ($this->resourceLink->getContext() && $this->resourceLink->getContext()->getId()) {
+                    $id .= ToolProvider::ID_SCOPE_SEPARATOR . $this->resourceLink->getContext()->getId();
                 }
                 $id .= ToolProvider::ID_SCOPE_SEPARATOR . $this->ltiUserId;
                 break;
