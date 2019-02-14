@@ -177,7 +177,7 @@ class ToolProvider
 /**
  * Data connector object.
  *
- * @var DataConnector $dataConnector
+ * @var DataConnector|null $dataConnector
  */
     public $dataConnector = null;
 /**

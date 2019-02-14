@@ -73,7 +73,7 @@ class ResourceLinkShareKey
 /**
  * Data connector.
  *
- * @var DataConnector $dataConnector
+ * @var DataConnector|null $dataConnector
  */
     private $dataConnector = null;
 

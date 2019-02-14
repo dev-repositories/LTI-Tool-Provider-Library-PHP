@@ -45,7 +45,7 @@ class ToolProxy
 /**
  * Data connector object.
  *
- * @var DataConnector $dataConnector
+ * @var DataConnector|null $dataConnector
  */
     private $dataConnector = null;
 /**

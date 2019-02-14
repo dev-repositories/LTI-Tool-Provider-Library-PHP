@@ -398,7 +398,7 @@ class ResourceLink
 /**
  * Get the data connector.
  *
- * @return DataConnector|null Data connector object or string
+ * @return DataConnector|null Data connector object or null
  */
     public function getDataConnector()
     {

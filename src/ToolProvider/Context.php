@@ -75,7 +75,7 @@ class Context
 /**
  * Data connector object or string.
  *
- * @var mixed $dataConnector
+ * @var DataConnector|null $dataConnector
  */
     private $dataConnector = null;
 
@@ -222,7 +222,7 @@ class Context
 /**
  * Get the data connector.
  *
- * @return mixed Data connector object or string
+ * @return DataConnector Data connector object or string
  */
     public function getDataConnector()
     {

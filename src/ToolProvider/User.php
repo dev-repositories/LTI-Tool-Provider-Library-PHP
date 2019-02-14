@@ -103,7 +103,7 @@ class User
 /**
  * Data connector object or string.
  *
- * @var mixed $dataConnector
+ * @var DataConnector|null $dataConnector
  */
     private $dataConnector = null;
 
@@ -235,7 +235,7 @@ class User
 /**
  * Get the data connector.
  *
- * @return mixed Data connector object or string
+ * @return DataConnector|null Data connector object or null
  */
     public function getDataConnector()
     {
