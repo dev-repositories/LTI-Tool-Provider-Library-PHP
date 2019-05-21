@@ -58,11 +58,11 @@ class ToolProvider
 /**
  * Permitted LTI versions for messages.
  */
-    private static $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
+    protected static $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
 /**
  * List of supported message types and associated class methods.
  */
-    private static $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
+    protected static $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
                                           'ContentItemSelectionRequest' => 'onContentItem',
                                           'ToolProxyRegistrationRequest' => 'register');
 /**
@@ -70,7 +70,7 @@ class ToolProvider
  *
  * @var array $METHOD_NAMES
  */
-    private static $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
+    protected static $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
                                          'ContentItemSelectionRequest' => 'onContentItem',
                                          'ToolProxyRegistrationRequest' => 'onRegister');
 /**
@@ -78,13 +78,13 @@ class ToolProvider
  *
  * @var array $LTI_CONSUMER_SETTING_NAMES
  */
-    private static $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
+    protected static $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
 /**
  * Names of LTI parameters to be retained in the context settings property.
  *
  * @var array $LTI_CONTEXT_SETTING_NAMES
  */
-    private static $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
+    protected static $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
                                                       'custom_lineitems_url', 'custom_results_url',
                                                       'custom_context_memberships_url');
 /**
@@ -92,7 +92,7 @@ class ToolProvider
  *
  * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
  */
-    private static $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
+    protected static $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
                                                             'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids',
                                                             'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
                                                             'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
@@ -103,7 +103,7 @@ class ToolProvider
  *
  * @var array $CUSTOM_SUBSTITUTION_VARIABLES
  */
-    private static $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
+    protected static $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
                                                           'User.image' => 'user_image',
                                                           'User.username' => 'username',
                                                           'User.scope.mentor' => 'role_scope_mentor',
@@ -295,13 +295,13 @@ class ToolProvider
  *
  * @var array $callbackHandler
  */
-    private $callbackHandler = null;
+    protected $callbackHandler = null;
 /**
  * LTI parameter constraints for auto validation checks.
  *
  * @var array $constraints
  */
-    private $constraints = null;
+    protected $constraints = null;
 
 /**
  * Class constructor
@@ -576,10 +576,6 @@ EOD;
 
     }
 
-###
-###    PRIVATE METHODS
-###
-
 /**
  * Call any callback function for the requested action.
  *
@@ -589,7 +585,7 @@ EOD;
  *
  * @return void True if no error reported
  */
-    private function doCallback($method = null)
+    protected function doCallback($method = null)
     {
 
         $callback = $method;
@@ -615,7 +611,7 @@ EOD;
  *
  * @return string Output to be displayed (redirection, or display HTML or message)
  */
-    private function result()
+    protected function result()
     {
 
         $ok = false;
@@ -680,7 +676,7 @@ EOD;
  *
  * @return boolean True if the request has been successfully validated.
  */
-    private function authenticate()
+    protected function authenticate()
     {
 
 // Get the consumer
@@ -1181,7 +1177,7 @@ EOD;
  *
  * @return boolean True if no error is reported
  */
-    private function checkForShare()
+    protected function checkForShare()
     {
 
         $ok = true;
@@ -1273,7 +1269,7 @@ EOD;
  *
  * @return boolean True if value is valid
  */
-    private function checkValue($value, $values, $reason)
+    protected function checkValue($value, $values, $reason)
     {
 
         $ok = in_array($value, $values);
