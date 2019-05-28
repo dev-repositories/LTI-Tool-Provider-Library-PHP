@@ -900,15 +900,15 @@ EOD;
 // Check for required services
             if ($this->ok) {
                 foreach ($this->requiredServices as $service) {
-                    foreach ($service->formats as $format) {
-                        if (!$this->findService($format, $service->actions)) {
+                    foreach ($service->format as $format) {
+                        if (!$this->findService($format, $service->action)) {
                             if ($this->ok) {
                                 $this->reason = 'Required service(s) not offered - ';
                                 $this->ok = false;
                             } else {
                                 $this->reason .= ', ';
                             }
-                            $this->reason .= "'{$format}' [" . implode(', ', $service->actions) . ']';
+                            $this->reason .= "'{$format}' [" . implode(', ', $service->action) . ']';
                         }
                     }
                 }

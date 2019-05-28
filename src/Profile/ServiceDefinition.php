@@ -18,15 +18,15 @@ class ServiceDefinition
 /**
  * Media types supported by service.
  *
- * @var array $formats
+ * @var array
  */
-    public $formats = null;
+    public $format = null;
 /**
  * HTTP actions accepted by service.
  *
- * @var array $actions
+ * @var array
  */
-    public $actions = null;
+    public $action = null;
 /**
  * ID of service.
  *
@@ -52,8 +52,8 @@ class ServiceDefinition
     function __construct($formats, $actions, $id = null, $endpoint = null)
     {
 
-        $this->formats = $formats;
-        $this->actions = $actions;
+        $this->format = $formats;
+        $this->action = $actions;
         $this->id = $id;
         $this->endpoint = $endpoint;
 

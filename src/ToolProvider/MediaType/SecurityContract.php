@@ -34,8 +34,8 @@ class SecurityContract
         $this->shared_secret = $secret;
         $toolServices = array();
         foreach ($toolProvider->requiredServices as $requiredService) {
-            foreach ($requiredService->formats as $format) {
-                $service = $toolProvider->findService($format, $requiredService->actions);
+            foreach ($requiredService->format as $format) {
+                $service = $toolProvider->findService($format, $requiredService->action);
                 if (($service !== false) && !array_key_exists($service->{'@id'}, $toolServices)) {
                     $id = $service->{'@id'};
                     $parts = explode(':', $id, 2);
@@ -47,14 +47,14 @@ class SecurityContract
                     $toolService = new \stdClass;
                     $toolService->{'@type'} = 'RestServiceProfile';
                     $toolService->service = $id;
-                    $toolService->action = $requiredService->actions;
+                    $toolService->action = $requiredService->action;
                     $toolServices[$service->{'@id'}] = $toolService;
                 }
             }
         }
         foreach ($toolProvider->optionalServices as $optionalService) {
-            foreach ($optionalService->formats as $format) {
-                $service = $toolProvider->findService($format, $optionalService->actions);
+            foreach ($optionalService->format as $format) {
+                $service = $toolProvider->findService($format, $optionalService->action);
                 if (($service !== false) && !array_key_exists($service->{'@id'}, $toolServices)) {
                     $id = $service->{'@id'};
                     $parts = explode(':', $id, 2);
@@ -66,7 +66,7 @@ class SecurityContract
                     $toolService = new \stdClass;
                     $toolService->{'@type'} = 'RestServiceProfile';
                     $toolService->service = $id;
-                    $toolService->action = $optionalService->actions;
+                    $toolService->action = $optionalService->action;
                     $toolServices[$service->{'@id'}] = $toolService;
                 }
             }
