@@ -531,36 +531,31 @@ EOD;
 
 /**
  * Process a valid launch request
- *
- * @return boolean True if no error
  */
     protected function onLaunch()
     {
 
-        $this->onError();
+        $this->ok = false;
 
     }
 
 /**
  * Process a valid content-item request
- *
- * @return boolean True if no error
  */
     protected function onContentItem()
     {
 
-        $this->onError();
+        $this->ok = false;
 
     }
 
 /**
  * Process a valid tool proxy registration request
- *
- * @return boolean True if no error
  */
-    protected function onRegister() {
+    protected function onRegister()
+    {
 
-        $this->onError();
+        $this->ok = false;
 
     }
 
@@ -572,7 +567,7 @@ EOD;
     protected function onError()
     {
 
-        $this->doCallback('onError');
+        return false;
 
     }
 
@@ -582,8 +577,6 @@ EOD;
  * This function may set the redirect_url and output properties.
  *
  * @param string|null $method
- *
- * @return void True if no error reported
  */
     protected function doCallback($method = null)
     {
@@ -593,7 +586,7 @@ EOD;
             $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
         }
         if (method_exists($this, $callback)) {
-            $result = $this->$callback();
+            $this->$callback();
         } else if (is_null($method) && $this->ok) {
             $this->ok = false;
             $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
@@ -608,8 +601,6 @@ EOD;
  * Perform the result of an action.
  *
  * This function may redirect the user to another URL rather than returning a value.
- *
- * @return string Output to be displayed (redirection, or display HTML or message)
  */
     protected function result()
     {
