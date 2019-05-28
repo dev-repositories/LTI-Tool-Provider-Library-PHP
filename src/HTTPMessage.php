@@ -46,6 +46,11 @@ class HTTPMessage
     public $response = null;
 
     /**
+     * @var object|null Json decoded response data.
+     */
+    public $responseJson = null;
+
+    /**
      * Response headers.
      * @var string $responseHeaders
      */

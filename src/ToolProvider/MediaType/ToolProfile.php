@@ -1,6 +1,7 @@
 <?php
 
 namespace IMSGlobal\LTI\ToolProvider\MediaType;
+use IMSGlobal\LTI\Profile\ServiceDefinition;
 use IMSGlobal\LTI\ToolProvider\ToolProvider;
 
 /**
@@ -15,7 +16,26 @@ use IMSGlobal\LTI\ToolProvider\ToolProvider;
 class ToolProfile
 {
 
+    /**
+     * @var object
+     */
     public $product_instance;
+    /**
+     * @var array
+     */
+    public $capability_offered = [];
+    /**
+     * @var ResourceHandler[]
+     */
+    public $resource_handler = [];
+    /**
+     * @var ServiceDefinition[]|null
+     */
+    public $service_offered;
+    /**
+     * @var string
+     */
+    public $lti_version = 'LTI-2p0';
 
 /**
  * Class constructor.
@@ -24,8 +44,6 @@ class ToolProfile
  */
     function __construct($toolProvider)
     {
-
-        $this->lti_version = 'LTI-2p0';
 
         if (!empty($toolProvider->product)) {
             $this->product_instance = new \stdClass;

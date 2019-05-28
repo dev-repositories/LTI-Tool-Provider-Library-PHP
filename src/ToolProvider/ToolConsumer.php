@@ -128,6 +128,10 @@ class ToolConsumer
  * @var ToolProfile|null
  */
     public $profile = null;
+    /**
+     * @var string|null Json encoded Tool Proxy data.
+     */
+    public $toolProxy = null;
 
 /**
  * Consumer ID value.
