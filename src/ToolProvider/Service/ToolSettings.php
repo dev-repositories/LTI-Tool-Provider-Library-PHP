@@ -106,6 +106,8 @@ class ToolSettings extends Service
                 unset($settings['@id']);
                 $response[self::$LEVEL_NAMES[$level->{'@type'}]] = $settings;
             }
+        } else {
+            $response = false;
         }
 
         return $response;
