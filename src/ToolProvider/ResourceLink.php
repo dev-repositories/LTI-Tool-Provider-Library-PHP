@@ -3,7 +3,7 @@
 namespace IMSGlobal\LTI\ToolProvider;
 
 use DOMDocument;
-use DOMElement;
+use DOMNode;
 use IMSGlobal\LTI\ToolProvider\DataConnector\DataConnector;
 use IMSGlobal\LTI\ToolProvider\Service;
 use IMSGlobal\LTI\HTTPMessage;
@@ -1254,7 +1254,7 @@ EOD;
 /**
  * Convert DOM nodes to array.
  *
- * @param DOMElement $node XML element
+ * @param DOMNode $node XML element
  *
  * @return array|string Array of XML document elements
  */

@@ -30,13 +30,13 @@ class ResourceHandler
 /**
  * Required Message objects for resource handler.
  *
- * @var array $requiredMessages
+ * @var Message[] $requiredMessages
  */
     public $requiredMessages = null;
 /**
  * Optional Message objects for resource handler.
  *
- * @var array $optionalMessages
+ * @var Message[] $optionalMessages
  */
     public $optionalMessages = null;
 

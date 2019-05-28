@@ -237,19 +237,19 @@ class ToolProvider
 /**
  * Services required by Tool Provider
  *
- * @var array $requiredServices
+ * @var Profile\ServiceDefinition[]
  */
   public $requiredServices = null;
 /**
  * Optional services used by Tool Provider
  *
- * @var array $optionalServices
+ * @var Profile\ServiceDefinition[]
  */
   public $optionalServices = null;
 /**
  * Resource handlers for Tool Provider
  *
- * @var array $resourceHandlers
+ * @var Profile\ResourceHandler[]
  */
   public $resourceHandlers = null;
 
@@ -383,7 +383,7 @@ class ToolProvider
  * @param string $format  Media type required
  * @param array  $methods Array of HTTP actions required
  *
- * @return object The service object
+ * @return Profile\ServiceDefinition|bool The service object
  */
     public function findService($format, $methods)
     {
@@ -879,6 +879,7 @@ EOD;
                 if (!$this->ok) {
                     $this->reason = 'Tool consumer profile not accessible.';
                 } else {
+                    /* @var MediaType\ToolProfile $tcProfile */
                     $tcProfile = json_decode($http->response);
                     $this->ok = !is_null($tcProfile);
                     if (!$this->ok) {

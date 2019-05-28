@@ -84,7 +84,7 @@ class ToolSettings extends Service
  *
  * @param int          $mode       Mode for request (optional, default is current level only)
  *
- * @return mixed The array of settings if successful, otherwise false
+ * @return array|bool The array of settings if successful, otherwise false
  */
     public function get($mode = self::MODE_CURRENT_LEVEL) {
 

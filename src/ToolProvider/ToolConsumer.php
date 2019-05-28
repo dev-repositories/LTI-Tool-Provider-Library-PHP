@@ -3,6 +3,7 @@
 namespace IMSGlobal\LTI\ToolProvider;
 
 use IMSGlobal\LTI\ToolProvider\DataConnector\DataConnector;
+use IMSGlobal\LTI\ToolProvider\MediaType\ToolProfile;
 use IMSGlobal\LTI\ToolProvider\Service;
 use IMSGlobal\LTI\HTTPMessage;
 use IMSGlobal\LTI\OAuth;
@@ -124,7 +125,7 @@ class ToolConsumer
 /**
  * The consumer profile data.
  *
- * @var object
+ * @var ToolProfile|null
  */
     public $profile = null;
 
